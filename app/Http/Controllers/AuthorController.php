@@ -14,8 +14,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        // Get all authors from Model
-        $authors = Author::getAllAuthors();
+        // Get all authors from database
+        $authors = Author::all();
         
         // Pass data to view
         return view('authors.index', compact('authors'));
@@ -29,12 +29,8 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        // Get specific author by ID
-        $author = Author::find($id);
-        
-        if (!$author) {
-            abort(404, 'Author not found');
-        }
+        // Get specific author by ID with their books
+        $author = Author::with('books')->findOrFail($id);
         
         return view('authors.show', compact('author'));
     }
