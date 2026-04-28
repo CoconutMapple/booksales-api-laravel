@@ -12,15 +12,7 @@ class Book extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'title',
-        'author_id',
-        'isbn',
-        'publication_year',
-        'price',
-        'stock',
-        'description',
-    ];
+    protected $fillable = ['title', 'author_id', 'published_year'];
 
     /**
      * Get the author that owns the book.

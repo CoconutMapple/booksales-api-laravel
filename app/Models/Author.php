@@ -12,12 +12,7 @@ class Author extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'birth_year',
-        'nationality',
-        'bio',
-    ];
+    protected $fillable = ['name', 'bio', 'nationality', 'birth_year'];
 
     /**
      * Get all books by this author.

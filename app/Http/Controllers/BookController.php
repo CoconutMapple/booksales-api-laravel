@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Book;
@@ -7,31 +5,32 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of books.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
-        // Get all books from database with author relationship
-        $books = Book::with('author')->get();
-        
-        // Pass data to view
-        return view('books.index', compact('books'));
+        return response()->json(Book::all());
     }
 
-    /**
-     * Display the specified book.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
     public function show($id)
     {
-        // Get specific book by ID with author
-        $book = Book::with('author')->findOrFail($id);
-        
-        return view('books.show', compact('book'));
+        return response()->json(Book::findOrFail($id));
+    }
+
+    public function store(Request $request)
+    {
+        $book = Book::create($request->all());
+        return response()->json($book, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+        return response()->json($book);
+    }
+
+    public function destroy($id)
+    {
+        Book::destroy($id);
+        return response()->json(['message' => 'Deleted']);
     }
 }
