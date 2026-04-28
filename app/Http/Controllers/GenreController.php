@@ -7,35 +7,19 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    /**
-     * Display a listing of genres.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
-        // Get all genres from Model
-        $genres = Genre::getAllGenres();
-        
-        // Pass data to view
-        return view('genres.index', compact('genres'));
+        return response()->json(Genre::all());
     }
 
-    /**
-     * Display the specified genre.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function show($id)
+    public function store(Request $request)
     {
-        // Get specific genre by ID
-        $genre = Genre::find($id);
-        
-        if (!$genre) {
-            abort(404, 'Genre not found');
-        }
-        
-        return view('genres.show', compact('genre'));
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $genre = Genre::create($validated);
+
+        return response()->json($genre, 201);
     }
 }
