@@ -10,7 +10,10 @@ class GenreController extends Controller
     // READ ALL
     public function index()
     {
-        return response()->json(Genre::all());
+        return response()->json([
+            'message' => 'List genre',
+            'data' => Genre::all()
+        ]);
     }
 
     // CREATE
@@ -22,7 +25,10 @@ class GenreController extends Controller
 
         $genre = Genre::create($validated);
 
-        return response()->json($genre, 201);
+        return response()->json([
+            'message' => 'Genre berhasil dibuat',
+            'data' => $genre
+        ], 201);
     }
 
     // SHOW
@@ -36,7 +42,10 @@ class GenreController extends Controller
             ], 404);
         }
 
-        return response()->json($genre);
+        return response()->json([
+            'message' => 'Detail genre',
+            'data' => $genre
+        ]);
     }
 
     // UPDATE
@@ -50,9 +59,16 @@ class GenreController extends Controller
             ], 404);
         }
 
-        $genre->update($request->all());
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string'
+        ]);
 
-        return response()->json($genre);
+        $genre->update($validated);
+
+        return response()->json([
+            'message' => 'Genre berhasil diupdate',
+            'data' => $genre
+        ]);
     }
 
     // DELETE

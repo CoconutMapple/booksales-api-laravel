@@ -10,7 +10,10 @@ class AuthorController extends Controller
     // READ ALL
     public function index()
     {
-        return response()->json(Author::all());
+        return response()->json([
+            'message' => 'List author',
+            'data' => Author::all()
+        ]);
     }
 
     // CREATE
@@ -25,7 +28,10 @@ class AuthorController extends Controller
 
         $author = Author::create($validated);
 
-        return response()->json($author, 201);
+        return response()->json([
+            'message' => 'Author berhasil dibuat',
+            'data' => $author
+        ], 201);
     }
 
     // SHOW
@@ -39,7 +45,10 @@ class AuthorController extends Controller
             ], 404);
         }
 
-        return response()->json($author);
+        return response()->json([
+            'message' => 'Detail author',
+            'data' => $author
+        ]);
     }
 
     // UPDATE
@@ -53,9 +62,19 @@ class AuthorController extends Controller
             ], 404);
         }
 
-        $author->update($request->all());
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string',
+            'bio' => 'nullable|string',
+            'nationality' => 'sometimes|required|string',
+            'birth_year' => 'sometimes|required|integer'
+        ]);
 
-        return response()->json($author);
+        $author->update($validated);
+
+        return response()->json([
+            'message' => 'Author berhasil diupdate',
+            'data' => $author
+        ]);
     }
 
     // DELETE
