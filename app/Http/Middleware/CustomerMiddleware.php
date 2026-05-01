@@ -5,13 +5,13 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class CustomerMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->header('role') !== 'admin') {
+        if ($request->header('role') !== 'customer') {
             return response()->json([
-                'message' => 'Akses hanya untuk admin'
+                'message' => 'Akses hanya untuk customer'
             ], 403);
         }
 
